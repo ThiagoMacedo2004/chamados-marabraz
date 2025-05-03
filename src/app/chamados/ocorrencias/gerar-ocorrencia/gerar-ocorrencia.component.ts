@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +19,7 @@ export class GerarOcorrenciaComponent implements OnInit {
   columnsToDisplay = ['OCORRENCIA', 'MOTIVO', 'SUBMOTIVO'];
   columnsWitchData = [...this.columnsToDisplay,'DATA', 'STATUS']
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
   filterOptions: Loja[] = []
   lojas: Loja[] = []
@@ -34,7 +34,7 @@ export class GerarOcorrenciaComponent implements OnInit {
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _router: Router,
     private _dialog: MatDialog
   ) { }

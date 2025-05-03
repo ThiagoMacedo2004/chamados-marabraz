@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Lojas } from 'src/app/chamados/lojas/lojas.component';
 import { LoginService } from 'src/app/login/login.service';
@@ -15,7 +15,7 @@ export class DialogEditarLojaComponent implements OnInit {
   url: string = 'http://www.infraestrutura.com.br/ocorrencias_php/src/api/ApiCep.php'
   // url: string = 'http://cpl-inf-02.marabraz.com.br/ocorrencias_php/src/api/ApiCep.php'
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
 
   myModel       = ''
@@ -28,7 +28,7 @@ export class DialogEditarLojaComponent implements OnInit {
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialogRef: MatDialogRef<DialogEditarLojaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }

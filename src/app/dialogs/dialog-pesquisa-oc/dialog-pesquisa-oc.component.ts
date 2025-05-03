@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class DialogPesquisaOcComponent implements OnInit {
 
   filterOptions: Lojas[] = []
   lojas: Lojas[] = []
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   motivos: any[] = []
   subMotivos: any[] = []
   ocorrencias: Ocorrencia[] = []
@@ -26,7 +26,7 @@ export class DialogPesquisaOcComponent implements OnInit {
   constructor(
     private _dialoRef: MatDialogRef<DialogPesquisaOcComponent>,
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _router: Router
   ) {
    }

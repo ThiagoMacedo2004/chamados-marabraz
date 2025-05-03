@@ -10,7 +10,7 @@ import { DialogPesquisaOcComponent } from 'src/app/dialogs/dialog-pesquisa-oc/di
 import { LoginService } from 'src/app/login/login.service';
 
 import { DialogDeletaOcorrenciaComponent } from 'src/app/dialogs/dialog-deleta-ocorrencia/dialog-deleta-ocorrencia.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lojas } from '../../lojas/lojas.component';
 import { MyErrorStateMatcher } from 'src/app/shared/erros-form';
 
@@ -48,7 +48,7 @@ export class TabelaOcorrenciasComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer,
     private _dialog: MatDialog,
     private _location: Location,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
   ) { }
 
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {

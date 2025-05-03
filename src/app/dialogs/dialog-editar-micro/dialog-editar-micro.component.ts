@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, map } from 'rxjs';
 import { Lojas } from 'src/app/chamados/lojas/lojas.component';
@@ -16,7 +16,7 @@ export class DialogEditarMicroComponent implements OnInit {
 
   filterLojas!: Observable<Lojas[]>;
   lojas: Lojas[] = []
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
 
   myModel       = ''
@@ -24,7 +24,7 @@ export class DialogEditarMicroComponent implements OnInit {
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialog: MatDialog,
     private _dialoRef: MatDialogRef<DialogEditarMicroComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

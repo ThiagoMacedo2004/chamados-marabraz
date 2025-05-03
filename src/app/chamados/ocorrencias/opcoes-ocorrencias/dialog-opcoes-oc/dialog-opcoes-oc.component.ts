@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LoginService } from 'src/app/login/login.service';
 import { MyErrorStateMatcher } from 'src/app/shared/erros-form';
@@ -11,11 +11,11 @@ import { MyErrorStateMatcher } from 'src/app/shared/erros-form';
 })
 export class DialogOpcoesOcComponent implements OnInit {
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _service: LoginService,
     private _dialogRef: MatDialogRef<DialogOpcoesOcComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

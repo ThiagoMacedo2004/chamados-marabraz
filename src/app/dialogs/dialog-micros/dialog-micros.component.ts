@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Micros } from 'src/app/chamados/lojas/lojas.component';
@@ -21,7 +21,7 @@ export class DialogMicrosComponent implements OnInit {
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialog: MatDialog,
     private _dialoRef: MatDialogRef<DialogMicrosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any

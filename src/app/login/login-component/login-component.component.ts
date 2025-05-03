@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/shared/erros-form';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponentComponent implements OnInit {
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
   hide: boolean = true
   usuario: {} = {}
   path: string = '/ApiUsuarios.php'
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _service: LoginService,
     private _router: Router
   ) { }

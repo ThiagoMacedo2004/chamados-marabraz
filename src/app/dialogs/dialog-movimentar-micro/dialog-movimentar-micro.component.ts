@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -17,12 +17,12 @@ export class DialogMovimentarMicroComponent implements OnInit {
   lojas: Lojas[] = []
   lojaAtual!: string
   usuarioLogado: any
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   matcher = new MyErrorStateMatcher();
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialog: MatDialog,
     private _dialoRef: MatDialogRef<DialogMovimentarMicroComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Micro

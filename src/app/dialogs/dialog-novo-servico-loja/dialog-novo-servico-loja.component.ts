@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MyErrorStateMatcher } from 'src/app/shared/erros-form';
 import { LoginService } from 'src/app/login/login.service';
@@ -12,7 +12,7 @@ import { Lojas, Servicos } from 'src/app/chamados/lojas/lojas.component';
 })
 export class DialogNovoServicoLojaComponent implements OnInit {
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   cnpjs:any = []
   matcher = new MyErrorStateMatcher();
   titulo: string = ''
@@ -43,7 +43,7 @@ export class DialogNovoServicoLojaComponent implements OnInit {
 
   constructor(
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialoRef: MatDialogRef<DialogNovoServicoLojaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }

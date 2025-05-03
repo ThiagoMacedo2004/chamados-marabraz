@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { min, Subscription } from 'rxjs';
@@ -31,7 +31,7 @@ export class DetalheOcorrenciaComponent implements OnInit, OnDestroy {
   minDate?: Date
   user: any
 
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
 
   matcher = new MyErrorStateMatcher();
 
@@ -40,7 +40,7 @@ export class DetalheOcorrenciaComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _location: Location,
     private _service: LoginService,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _dialog: MatDialog
   ) { }
 

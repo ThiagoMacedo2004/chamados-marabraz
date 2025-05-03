@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Lojas } from '../../lojas/lojas.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Ocorrencia } from '../tabela-ocorrencias/tabela-ocorrencias.component';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login/login.service';
@@ -21,7 +21,7 @@ export class PesquisaOcorrenciaComponent implements OnInit {
   result: any
   filterOptions: Lojas[] = []
   lojas: Lojas[] = []
-  formGroup!: FormGroup
+  formGroup!: UntypedFormGroup
   motivos: any[] = []
   subMotivos: any[] = []
   ocorrencias: Ocorrencia[] = []
@@ -35,7 +35,7 @@ export class PesquisaOcorrenciaComponent implements OnInit {
     private _router: Router,
     private _service: LoginService,
     private _location: Location,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {
