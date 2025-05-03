@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>
+  <div>
+    <mat-icon>add_to_queue</mat-icon>
+    Adicionar novo micro
+  </div>
+  <button mat-icon-button [mat-dialog-close] >
+      <mat-icon class="mat-18">close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Lojas</mat-label>
+      <input
+            type="text"
+            placeholder="Selecione uma loja"
+            aria-label="Loja"
+            matInput
+            [matAutocomplete]="auto"
+            formControlName="LOJA">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let loja of filterLojas" [value]="loja.LOJA">
+          <span>{{ loja.LOJA }}</span>
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="formGroup.get('LOJA')?.hasError('required')">
+        Loja é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Asset_TAG</mat-label>
+      <input matInput
+            formControlName="ASSET_TAG"
+
+            [textMask]="{mask: mask}"
+            type="text"
+            minlength=6
+            formControlName="ASSET_TAG">
+      <mat-error *ngIf="formGroup.get('ASSET_TAG')?.hasError('required')">
+        ASSET_TAG é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Service TAG</mat-label>
+      <input matInput formControlName="SERVICE_TAG">
+      <mat-error *ngIf="formGroup.get('SERVICE_TAG')?.hasError('required')">
+        SERVICE_TAG é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fabricante</mat-label>
+      <input matInput formControlName="FABRICANTE">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <input matInput formControlName="MODELO">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="STATUS">
+        <mat-option value="">--SELECIONE--</mat-option>
+        <mat-option value="OK">OK</mat-option>
+        <mat-option value="DANIFICADA">DANIFICADA</mat-option>
+        <mat-option value="FURTO">FURTO</mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('STATUS')?.hasError('required')">
+        STATUS é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="adicionarMicro()">
+      SALVAR
+    </button>
+  </form>
+
+</mat-dialog-content>

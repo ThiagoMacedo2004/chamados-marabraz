@@ -1,0 +1,239 @@
+<div class="card-container">
+  <mat-card>
+
+    <mat-toolbar>
+
+      <div class="btns">
+        <button mat-icon-button matTooltip="Voltar" color="primary" (click)="voltar()">
+          <mat-icon >arrow_back</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Enviar O.S" color="primary" (click)="enviaEmail(detalheOc)" *ngIf="detalheOc?.STATUS === 'Aberta'">
+          <span class="material-symbols-outlined">
+            forward_to_inbox
+          </span>
+        </button>
+        <button mat-icon-button matTooltip="Abrir O.S" color="primary" (click)="pdfOs(detalheOc)" *ngIf="detalheOc?.STATUS === 'Aberta' ">
+          <span class="material-symbols-outlined">
+            file_open
+          </span>
+        </button>
+        <!-- <a mat-icon-button color="primary" href="http://cpl-inf-02.marabraz.com.br/ocorrencias_php/pdfs/{{ detalheOc.OCORRENCIA }}.pdf" target="_blank" matTooltip="Abrir O.S" *ngIf="detalheOc.STATUS === 'Finalizada'"> -->
+        <a mat-icon-button color="primary" href="http://www.infraestrutura.com.br/ocorrencias_php/pdfs/{{ detalheOc.OCORRENCIA }}.pdf" target="_blank" matTooltip="Abrir O.S" *ngIf="detalheOc?.STATUS === 'Finalizada'">
+          <span class="material-symbols-outlined">
+            file_open
+          </span>
+        </a>
+        <button mat-icon-button *ngIf="detalheOc?.STATUS !== 'Finalizada'" color="warn" matTooltip="Deletar O.S" (click)="deletaOcorrencia(detalheOc)">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </button>
+      </div>
+
+      <span class="titulo-loja">{{ detalheOc?.LOJA }}</span>
+
+      <h3 [ngClass]="{
+        'status-aberta': detalheOc?.STATUS === 'Aberta',
+        'status-finalizada': detalheOc?.STATUS === 'Finalizada'
+        }">{{ detalheOc?.STATUS }}
+      </h3>
+    </mat-toolbar>
+
+    <mat-card-content>
+      <div class="row">
+        <h2>Detalhes da O.S</h2>
+        <div>
+          <!-- <div class="info-oc">
+            <h3>Loja</h3>
+            <span>{{ detalheOc?.LOJA }}</span>
+          </div> -->
+          <div class="info-oc">
+            <h3>Ocorrência</h3>
+            <span>{{ detalheOc?.OCORRENCIA }}</span>
+          </div>
+          <div class="info-oc">
+            <h3>Motivo</h3>
+            <span>{{ detalheOc?.MOTIVO }}</span>
+          </div>
+          <div class="info-oc">
+            <h3>Submotivo</h3>
+            <span>{{ detalheOc?.SUBMOTIVO }}</span>
+          </div>
+          <div class="info-oc">
+            <h3>Analista</h3>
+            <span>{{ detalheOc?.ANALISTA }}</span>
+          </div>
+          <div class="info-oc">
+            <h3>Data</h3>
+            <span>{{ detalheOc?.DATA | date: 'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row descricao-triagem">
+        <div>
+          <h3>Descrição</h3>
+          <p>{{ detalheOc?.DESCRICAO }}</p>
+        </div>
+        <div>
+          <h3>Triagem</h3>
+          <p>{{ detalheOc?.TRIAGEM }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="detalheOc?.STATUS === 'Aberta'">
+    <mat-card-title>
+      <span class="titulo-finaliza-oc">Finalizar O.S</span>
+    </mat-card-title>
+
+    <mat-card-content>
+      <div class="container-atendimento">
+        <form [formGroup]="formGroup" class="info-atendimento">
+          <mat-form-field appearance="outline">
+            <mat-label>Data do Atendimento</mat-label>
+            <input matInput [matDatepicker]="picker" [max]="maxDate" [min]="minDate" formControlName="dataAtendimento" [disabled]="true">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <mat-error *ngIf="formGroup.get('dataAtendimento')?.hasError('required')">
+              Data é <strong>Obrigatória</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Técnico</mat-label>
+            <mat-select formControlName="idTecnico">
+              <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.ID">
+                {{tecnico?.NOME}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('idTecnico')?.hasError('required')">
+              Técnico é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Veículo</mat-label>
+            <mat-select formControlName="idVeiculo">
+              <mat-option *ngFor="let veiculo of veiculos" [value]="veiculo.ID">
+                {{veiculo?.MARCA}} - {{veiculo?.MODELO}} - {{veiculo?.PLACA}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('idVeiculo')?.hasError('required')">
+              Veículos é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+
+        <div class="materiais-utilizados">
+          <mat-form-field appearance="outline">
+            <mat-label>Materiais</mat-label>
+            <mat-select #material (selectionChange)="qtdMaterial = null">
+              <!-- <mat-option value="">- - Selecione um Material - -</mat-option> -->
+              <mat-option *ngFor="let material of materiais" [value]="material.ID">
+                {{material?.MATERIAL}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Qtd</mat-label>
+            <input [(ngModel)]="qtdMaterial"
+                  matInput placeholder="Qtd"
+                  type="number" value="0" min="1"
+                  (keyup)="(qtdMaterial == 0) ? qtdMaterial = 1 : qtdMaterial "
+                  [disabled]="!material.value" #qtd>
+          </mat-form-field>
+
+          <button mat-raised-button
+                color="primary"
+                (click)="[selecionarMateriais(material.value, qtdMaterial!), material.value = '']"
+                [disabled]="qtdMaterial == 0 || qtd.value == ''" >
+            Adicionar Material
+          </button>
+        </div>
+
+        <div class="tabela-mat">
+          <table class="tab-materiais-selecionados" *ngIf="materiaisSelecionados.length > 0; else semMateriais ">
+            <thead>
+              <th>MATERIAL</th>
+              <th>QTD</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let material of materiaisSelecionados">
+                <td>{{material?.MATERIAL}}</td>
+                <td>{{material?.QTD}}</td>
+                <td>
+                  <button mat-icon-button color="warn" (click)="deletarMaterial(material)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #semMateriais>
+            <h3>Nenhum material selecionado !</h3>
+          </ng-template>
+        </div>
+      </div>
+    </mat-card-content>
+      <mat-card-actions align="end">
+
+        <button mat-raised-button class="btn-finalizar" (click)="finalizarOc()" [disabled]="!formGroup.valid">
+          <mat-icon>check</mat-icon>
+          Finalizar
+        </button>
+
+      </mat-card-actions>
+  </mat-card>
+
+  <mat-card *ngIf="detalheOc?.STATUS === 'Finalizada'">
+    <mat-card-title class="titulo-oc-finalizada">
+      <span class="titulo-finaliza-oc">Detalhes do Atendimento</span>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="detalhes-atendimento-container">
+        <div class="detalhes-atendimento">
+          <div>
+            <h3>Data Atendimento</h3>
+            <span>{{ detalheAtendimentoOc?.DATA_ATEND | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div>
+            <h3>Técnico Atendimento</h3>
+            <span>{{ detalheAtendimentoOc?.TECNICO }}</span>
+          </div>
+
+          <div>
+            <h3>Analista que Finalizou</h3>
+            <span>{{ detalheAtendimentoOc?.ANALISTA_FINAL }}</span>
+          </div>
+
+          <div>
+            <h3>Veiculo</h3>
+            <span>{{ detalheAtendimentoOc?.VEICULO }}</span>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <h2 *ngIf="materiaisUtilizados?.length != 0">Materiais utilizados</h2>
+        <div class="materiais-utilizados-fin">
+          <div class="card-material" *ngFor="let material of materiaisUtilizados">
+            <h4>{{material?.MATERIAL}}</h4>
+            <h4>Qtd: {{ material?.QUANTIDADE }}</h4>
+          </div>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+

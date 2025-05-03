@@ -1,0 +1,39 @@
+<mat-toolbar class="header" color="primary">
+  <img src="https://lojasmarabraz.vtexassets.com/arquivos/logo-new-marabraz.svg" alt="Logo-Marabraz" class="img-marabraz">
+   <!-- <div class="logo-marabraz"></div> -->
+   <svg></svg>
+  <div>
+
+    <button mat-button class="nome" [matMenuTriggerFor]="menu">
+      <mat-icon class="icon-logout">arrow_drop_down</mat-icon>
+      <span class="user">{{user?.NOME}}</span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="dialogUsuario('editarUsuario')" >
+        <mat-icon >edit</mat-icon>
+        <span>Editar Usuário</span>
+      </button>
+      <button  mat-menu-item (click)="logout()" >
+        <mat-icon >logout</mat-icon>
+        <span >Sair</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" opened class="sidenav" disableClose="true" [fixedTopGap]="0">
+
+    <mat-nav-list role="navigation" routerLinkActive="active">
+      <a mat-list-item routerLinkActive="active" routerLink="{{menu.router}}" (click)="redirect(menu.router)" *ngFor="let menu of menus">
+        <mat-icon class="icon">{{ menu.icon }}</mat-icon>
+        <span>{{ menu.label }}</span>
+      </a>
+   </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

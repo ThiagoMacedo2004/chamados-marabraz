@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>
+  <div>
+    <mat-icon>change_circle</mat-icon>
+    Movimentar Micro
+  </div>
+  <button mat-icon-button [mat-dialog-close] >
+      <mat-icon class="mat-18">close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="mat-typography">
+  <h3>Situação atual:</h3>
+  <div class="local-atual">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-subtitle>Local Atual</mat-card-subtitle>
+      <mat-card-title>{{ data.LOJA }}</mat-card-title>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8">
+      <mat-card-subtitle>ASSET_TAG</mat-card-subtitle>
+      <mat-card-title>{{ data.ASSET_TAG }}</mat-card-title>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8">
+      <mat-card-subtitle>SERVICE_TAG</mat-card-subtitle>
+      <mat-card-title>{{ data.SERVICE_TAG }}</mat-card-title>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8">
+      <mat-card-subtitle>Fabricante</mat-card-subtitle>
+      <mat-card-title>{{ data.FABRICANTE }}</mat-card-title>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8">
+      <mat-card-subtitle>Modelo</mat-card-subtitle>
+      <mat-card-title>{{ data.MODELO }}</mat-card-title>
+    </mat-card>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <h3>Movimentar Micro:</h3>
+
+  <form [formGroup]="formGroup">
+    <div class="loja-data">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Lojas</mat-label>
+        <input matInput
+               formControlName="loja"
+               [matAutocomplete]="auto"
+               [(ngModel)]="lojaAtual">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let loja of filterLojas | async" [value]="loja.LOJA">
+            <span>{{ loja.LOJA }}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="formGroup.get('loja')?.hasError('required')">
+          Loja é <strong>Obrigatória</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="data" [disabled]="true">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+        <mat-error *ngIf="formGroup.get('data')?.hasError('required')">
+          Data é <strong>Obrigatória</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Observação</mat-label>
+      <textarea matInput formControlName="observacao"></textarea>
+      <mat-error *ngIf="formGroup.get('observacao')?.hasError('required')">
+        Observação é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="movimentacaoMicro()">SALVAR</button>
+</mat-dialog-actions>

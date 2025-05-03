@@ -1,0 +1,49 @@
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+[mat-dialog-title] > mat-icon {
+  transform: scale(1.2);
+  color: #555;
+}
+
+form {
+  display: flex;
+
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 24px;
+}
+
+mat-form-field {
+  flex: 1 1 ;
+}
+
+mat-form-field:nth-child(7) {
+  flex: 1 1 40% ;
+}
+
+mat-form-field.endereco {
+  flex: 1 1 65%;
+}
+
+mat-form-field.complemento {
+  flex: 1 1 31%;
+}
+
+[mat-icon-button] .mat-icon {
+  font-size: 150%;
+  /* line-height: 0; */
+}
+
+.icon-display {
+  transform: scale(1.1);
+  color: #999;
+}
+
+.icon-display-valid {
+  transform: scale(1.1);
+  color: #090909;
+}

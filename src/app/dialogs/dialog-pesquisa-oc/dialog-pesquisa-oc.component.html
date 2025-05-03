@@ -1,0 +1,102 @@
+<h2 mat-dialog-title>
+  <div>
+    <mat-icon>search</mat-icon>
+    <span>Pesquisar</span>
+  </div>
+  <button mat-icon-button [mat-dialog-close]="">
+      <mat-icon class="mat-18">close</mat-icon>
+  </button>
+</h2>
+
+<mat-tab-group style="margin-bottom: 16px;">
+  <mat-tab label="Pesquisa Comum">
+    <div mat-dialog-content>
+      <form [formGroup]="formGroup">
+        <div class="row">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Lojas</mat-label>
+            <input
+                  type="text"
+                  placeholder="Selecione uma loja"
+                  aria-label="Loja"
+                  matInput
+                  [matAutocomplete]="auto"
+                  formControlName="loja">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let loja of filterOptions" [value]="loja.LOJA">
+                <span>{{ loja.LOJA }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Ocorrência</mat-label>
+            <input matInput formControlName="ocorrencia">
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+
+          <mat-form-field appearance="fill" class="motivo-submotivo">
+            <mat-label>Motivo</mat-label>
+            <mat-select formControlName="idMotivo" (selectionChange)="changeMotivo($event)">
+              <mat-option value="">- - Selecione um Motivo - -</mat-option>
+              <mat-option *ngFor="let motivo of motivos" [value]="motivo.id">
+                {{motivo.motivo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="motivo-submotivo">
+            <mat-label>SubMotivos</mat-label>
+            <mat-select formControlName="idSubmotivo">
+              <mat-option value="">- - Selecione um Submotivo - -</mat-option>
+              <mat-option *ngFor="let subMotivo of subMotivos" [value]="subMotivo.id">
+                {{subMotivo.submotivo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="btns">
+          <button mat-raised-button color="warn" (click)="formGroup.reset()">
+            <span class="material-symbols-outlined">
+              clear
+            </span>
+            Limpar
+          </button>
+
+          <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="pesquisaOc()">
+            <span class="material-symbols-outlined">
+              search
+            </span>
+            Pesquisar
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </mat-tab>
+  <mat-tab label="Pesquisa Materiais">
+    <div class="tabela">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+          <th mat-header-cell *matHeaderCellDef > {{column}} </th>
+          <td mat-cell *matCellDef="let material"> {{material[column]}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: columnsToDisplay;"
+            (click)="pesquisaOcorrenciaMaterial(row.ID)"
+          >
+        </tr>
+
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+

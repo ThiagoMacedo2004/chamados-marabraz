@@ -1,0 +1,120 @@
+<h2 mat-dialog-title>
+  <mat-icon>edit</mat-icon>
+  <span>{{data.titulo}}</span>
+</h2>
+<div mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>Loja</mat-label>
+      <input matInput type="text" formControlName="loja" [(ngModel)]="loja.LOJA" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="formGroup.get('loja')?.hasError('required')">
+        Loja é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Local</mat-label>
+      <mat-select formControlName="local" [(ngModel)]="loja.LOCAL" [errorStateMatcher]="matcher">
+        <mat-option *ngFor="let local of locais" [value]="local">
+          {{ local }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="formGroup.get('local')?.hasError('required')">
+        Local é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CEP</mat-label>
+      <input matInput
+            [(ngModel)]="loja.CEP"
+            maxlength="8"
+            type="text"
+            formControlName="cep"
+            [errorStateMatcher]="matcher"
+        >
+
+      <button
+        mat-icon-button matSuffix type="button"
+        (click)="consultaCEP()"
+
+        [disabled]="formGroup.get('cep')?.errors"
+        [ngClass]="{
+          'icon-display': formGroup.get('cep')?.errors,
+          'icon-display-valid': formGroup.get('cep')?.valid}" >
+        <mat-icon >search</mat-icon>
+      </button>
+      <mat-error *ngIf="formGroup.get('cep')?.invalid || formGroup.get('cep')?.errors?.['minLength']" >
+        {{getErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="endereco">
+      <mat-label>Endereço</mat-label>
+      <input matInput type="text" formControlName="endereco" [(ngModel)]="loja.ENDERECO" [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="formGroup.get('endereco')?.hasError('required')">
+        Endereço é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="complemento">
+      <mat-label>Complemento</mat-label>
+      <input matInput type="text" formControlName="complemento" [(ngModel)]="loja.COMPLEMENTO" [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Numero</mat-label>
+      <input matInput type="text" formControlName="numero" [(ngModel)]="loja.NUMERO" [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="formGroup.get('numero')?.hasError('required')">
+        Numero é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Bairro</mat-label>
+      <input matInput type="text" formControlName="bairro" [(ngModel)]="loja.BAIRRO" [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="formGroup.get('bairro')?.hasError('required')">
+        Bairro é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Localidade/Município</mat-label>
+      <input matInput type="text" [(ngModel)]="loja.LOCALIDADE" formControlName="localidade">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Horário</mat-label>
+      <mat-select formControlName="horario" [(ngModel)]="loja.HORARIO_FUNC" [errorStateMatcher]="matcher">
+        <mat-option *ngFor="let horario of horarios" [value]="horario">
+          {{ horario }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="formGroup.get('horario')?.hasError('required')">
+        Horário é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" [(ngModel)]="loja.STATUS" [errorStateMatcher]="matcher">
+        <mat-option *ngFor="let statuss of status" [value]="statuss">
+          {{ statuss }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="formGroup.get('status')?.hasError('required')">
+        Status é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="warn" mat-dialog-close>Fechar</button>
+  <button mat-flat-button color="primary" [disabled]="!formGroup.valid" (click)="editarLoja()">Salvar</button>
+</div>

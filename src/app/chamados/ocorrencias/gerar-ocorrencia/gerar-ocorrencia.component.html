@@ -1,0 +1,159 @@
+<div class="container">
+  <mat-card class="card-gerar-os">
+    <mat-card-title class="titulo-card-gerar-os">
+      <mat-icon>post_add</mat-icon>
+      <span>Gerar O.S</span>
+    </mat-card-title>
+
+    <mat-card-content>
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <mat-form-field  appearance="outline" class="ocorrencia">
+            <mat-label>Ocorrência</mat-label>
+            <input matInput formControlName="OCORRENCIA"  [errorStateMatcher]="matcher" [(ngModel)]="dataOc.ocorrencia">
+            <mat-error *ngIf="formGroup.get('OCORRENCIA')?.hasError('required')">
+              Ocorrência é <strong>Obrigatória</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Loja</mat-label>
+            <mat-select formControlName="LOJA" (selectionChange)="infoLojaSelecionada($event)" [errorStateMatcher]="matcher">
+              <mat-option value="">-- Selecione --</mat-option>
+              <mat-option
+                *ngFor="let loja of lojas"
+                [value]="loja.ID"
+                [ngClass]="{
+                  'status-aberta': loja?.STATUS === 'FECHADA'}">
+                {{loja.LOJA}} {{(loja.STATUS === 'ABERTA') ? '' : loja.STATUS}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="true">
+              Loja é <strong>Obrigatória</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field appearance="outline" class="motivo-submotivo">
+            <mat-label>Motivo</mat-label>
+            <mat-select formControlName="ID_MOTIVO" (selectionChange)="changeMotivo($event)" [errorStateMatcher]="matcher">
+              <mat-option value="">- - Selecione um Motivo - -</mat-option>
+              <mat-option *ngFor="let motivo of motivos" [value]="motivo.id">
+                {{motivo.motivo}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('ID_MOTIVO')?.hasError('required')">
+              Motivo é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="motivo-submotivo">
+            <mat-label>SubMotivos</mat-label>
+            <mat-select formControlName="ID_SUBMOTIVO"  [errorStateMatcher]="matcher" >
+              <mat-option value="">- - Selecione um Submotivo - -</mat-option>
+              <mat-option *ngFor="let subMotivo of subMotivos" [value]="subMotivo.id">
+                {{subMotivo.submotivo}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('ID_SUBMOTIVO')?.hasError('required')">
+              Submotivo é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row-descricacao">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput placeholder="Descrição da Ocorrência" formControlName="DESCRICAO" rows="6" [(ngModel)]="dataOc.descricao" [errorStateMatcher]="matcher"></textarea>
+            <mat-error *ngIf="formGroup.get('DESCRICAO')?.hasError('required')">
+              Descrição é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Triagem</mat-label>
+            <textarea matInput placeholder="Triagem da Ocorrência" formControlName="TRIAGEM" rows="6" [(ngModel)]="dataOc.triagem" [errorStateMatcher]="matcher"></textarea>
+            <mat-error *ngIf="formGroup.get('TRIAGEM')?.hasError('required')">
+              Triagem é <strong>Obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="salvarOs()">Salvar</button>
+    </mat-card-actions>
+
+  </mat-card>
+
+  <div class="historico-loja">
+    <mat-card *ngIf="cardHistorico" >
+      <mat-card-title class="titulo-card-gerar-os">
+        <!-- <mat-icon>post_add</mat-icon> -->
+        <span>Informações sobre a loja</span>
+      </mat-card-title>
+      <mat-card-content>
+        <h3>Endereço</h3>
+        <p>{{ infoLojaSel?.ENDERECO }}, {{(infoLojaSel?.NUMERO)? infoLojaSel?.NUMERO : "S/N"}} - {{ infoLojaSel?.BAIRRO }} - {{ infoLojaSel?.LOCALIDADE }}/SP - CEP: {{ infoLojaSel?.CEP }}</p>
+
+        <h3>Local</h3>
+        <p>{{ infoLojaSel?.LOCAL }}</p>
+
+        <h3>Qtd Micro de Vendas</h3>
+        <p>{{ qtdMicrosLoja }}</p>
+      </mat-card-content>
+      <mat-card-content *ngIf="!cardHistorico">
+        <h3>Selecione uma loja da lista</h3>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="cardHistorico">
+      <mat-card-title class="titulo-card-gerar-os titulo-detalhe-loja">
+        <span>Histórico de ocorrências</span>
+      </mat-card-title>
+      <mat-card-subtitle>Ultimas ocorrências geradas para esta loja</mat-card-subtitle>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource"  *ngIf="dataSource.data.length > 0">
+          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+            <td mat-cell *matCellDef="let oc"> {{oc[column]}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DATA">
+            <th mat-header-cell *matHeaderCellDef >DATA</th>
+            <td mat-cell *matCellDef="let oc">
+              {{oc.DATA | date: 'dd/MM/yyyy'}}
+
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="STATUS">
+            <th mat-header-cell *matHeaderCellDef >STATUS</th>
+            <td mat-cell *matCellDef="let oc">
+              <span [ngClass]="{
+                'status-aberta': oc?.STATUS === 'Aberta',
+                'status-finalizada': oc?.STATUS === 'Finalizada'}">
+                {{oc.STATUS }}
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnsWitchData; sticky: true"></tr>
+          <tr mat-row
+            *matRowDef="let row; columns: columnsWitchData;"
+
+            (click)="detalhesOcorrencia(row)">
+          </tr>
+
+        </table>
+
+        <h3 *ngIf="dataSource.data.length == 0">Nenhuma ocorrência para esta loja.</h3>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</div>
+
+
+

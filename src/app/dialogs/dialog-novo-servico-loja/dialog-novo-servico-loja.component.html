@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>
+  <mat-icon>router</mat-icon>
+  <span> {{ titulo }} </span>
+</h2>
+<div mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>Operadora</mat-label>
+      <mat-select formControlName="operadora" [errorStateMatcher]="matcher" [(ngModel)]="dadosServico.operadora">
+        <mat-option *ngFor="let operadora of operadoras" [value]="operadora">
+          {{ operadora }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('operadora')?.hasError('required')">
+        Operadora é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Serviço</mat-label>
+      <mat-select formControlName="tipoServico" [errorStateMatcher]="matcher" [(ngModel)]="dadosServico.tipoServico">
+        <mat-option *ngFor="let servico of servicos" [value]="servico">
+          {{ servico }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('tipoServico')?.hasError('required')">
+        Serviço é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Designação</mat-label>
+      <input matInput type="text" formControlName="designacao" [errorStateMatcher]="matcher"  [(ngModel)]="dadosServico.designacao">
+      <mat-error *ngIf="formGroup.get('designacao')?.hasError('required')">
+        Designação é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="endereco">
+      <mat-label>Velocidade</mat-label>
+      <input matInput type="number" min="0" formControlName="velocidade" [errorStateMatcher]="matcher" [(ngModel)]="dadosServico.velocidade">
+      <button mat-icon-button matSuffix class="btn-person" disabled >
+        MB
+      </button>
+      <mat-error *ngIf="formGroup.get('endereco')?.hasError('required')">
+        Velocidade é <strong>Obrigatória</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CNPJ</mat-label>
+      <mat-select formControlName="idCnpj" [errorStateMatcher]="matcher" [(ngModel)]="dadosServico.idCnpj">
+        <mat-option *ngFor="let cnpj of cnpjs" [value]="cnpj.id">
+          {{ cnpj.cnpj }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('idCnpj')?.hasError('required')">
+        CNPJ é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Observação</mat-label>
+      <input matInput type="text" formControlName="observacao" [errorStateMatcher]="matcher" [(ngModel)]="dadosServico.observacao">
+      <mat-error *ngIf="formGroup.get('observacao')?.hasError('required')">
+        Observação é <strong>Obrigatório</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="primary" mat-dialog-close>Fechar</button>
+  <button mat-flat-button color="primary" [disabled]="!formGroup.valid" (click)="executarAcao()">Salvar</button>
+</div>
+

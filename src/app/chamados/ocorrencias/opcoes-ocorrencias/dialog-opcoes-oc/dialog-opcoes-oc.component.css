@@ -1,0 +1,17 @@
+.descricao {
+  /* font-size: 1.1rem; */
+  margin-bottom: 32px;
+  font-size: 1rem;
+  font-weight: 500 ;
+  color: #555;
+}
+
+
+.motivo {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+mat-form-field {
+  width: 100%;
+}

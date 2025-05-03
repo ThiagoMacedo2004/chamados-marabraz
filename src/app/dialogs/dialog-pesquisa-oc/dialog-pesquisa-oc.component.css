@@ -1,0 +1,71 @@
+h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+h2 > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px
+}
+
+form > div {
+  display: flex;
+  gap: 10px;
+
+}
+
+.mat-dialog-content {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+}
+
+.tabela {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+
+tr[mat-row]:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+
+div[cdkscrollable].mat-tab-body-content {
+  overflow: hidden;
+}
+
+mat-form-field {
+  font-size: 0.9rem;
+}
+
+form > div:nth-child(1) > mat-form-field:nth-child(2) {
+  flex: 1 1 auto;
+
+}
+
+form > div:nth-child(2) > mat-form-field {
+  flex: 1 1 auto;
+
+}
+
+form .btns {
+  align-self: self-end;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

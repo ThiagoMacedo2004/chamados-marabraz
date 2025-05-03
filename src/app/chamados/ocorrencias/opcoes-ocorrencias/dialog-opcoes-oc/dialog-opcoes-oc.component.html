@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Adicionar Submotivo</h2>
+<mat-dialog-content class="mat-typography" >
+  <p class="descricao">Digite um novo Submotivo relacionado ao motivo: <span class="motivo">{{data.motivo}}</span></p>
+
+  <form [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>Submotivo</mat-label>
+      <input matInput type="text" formControlName="submotivo" placeholder="Digite um novo Submotivo" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="formGroup.get('submotivo')?.hasError('required')">
+        Digite um <strong>Submotivo</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" cdkFocusInitial [disabled]="!formGroup.valid" (click)="adicionaSubmomtivo()">Salvar</button>
+</mat-dialog-actions>

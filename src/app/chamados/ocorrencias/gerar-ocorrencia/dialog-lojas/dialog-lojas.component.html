@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Selecione uma loja</h2>
+<mat-dialog-content class="mat-typography">
+
+  <mat-form-field appearance="legacy">
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Loja 001" #input>
+  </mat-form-field>
+
+  <div class="tabela">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <td mat-cell *matCellDef="let oc"> {{oc[column]}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr mat-row
+          *matRowDef="let row; columns: columnsToDisplay;"
+          [mat-dialog-close]="row">
+        </tr>
+
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="columnsToDisplay.length">Nenhuma loja encontrada com: {{input.value}}</td>
+      </tr>
+    </table>
+  </div>
+
+</mat-dialog-content>

@@ -1,0 +1,55 @@
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+
+[mat-dialog-title] > div {
+  display: flex;
+  flex-direction: column;
+}
+
+[mat-dialog-title] > div > .local {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+[mat-dialog-title] > mat-icon {
+  transform: scale(1.2);
+  color: #555;
+}
+
+.info {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+div.tabela {
+  max-height: calc(100vh - 304px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.tabela-micros {
+  width: 100%;
+}
+
+.tabela-micros th, .tabela-micros td {
+  font-size: 0.8rem;
+}
+
+[mat-header-cell] {
+  font-weight: bold;
+  color: #222;
+  height: 35px;
+}
+
+[mat-menu-item] > span {
+  font-size: 0.8rem;
+}

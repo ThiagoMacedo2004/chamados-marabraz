@@ -1,0 +1,91 @@
+<mat-card>
+  <mat-card-title>
+    <div class="info">
+      <mat-icon>groups</mat-icon>
+      <span>Usuários</span>
+    </div>
+    <button mat-raised-button color="primary" (click)="dialogUsuario('cadastrarNovoUsuario', '')" *ngIf="btnVisivel">
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </mat-card-title>
+  <mat-card-content  *ngIf="dataSource.data.length !== 0">
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Filtro</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. 0021xxxx" #input>
+
+    </mat-form-field>
+
+    <div class="tabela-usuarios">
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+          <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+          <td mat-cell *matCellDef="let user"> {{user[column]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DATE_CREATE">
+          <th mat-header-cell *matHeaderCellDef> DATA CRIAÇÃO </th>
+          <td mat-cell *matCellDef="let user"> {{user.DATE_CREATE | date: 'dd/MM/YYYY'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DATE_BLOCK">
+          <th mat-header-cell *matHeaderCellDef> DATA BLOQUEIO </th>
+          <td mat-cell *matCellDef="let user"> {{user.DATE_BLOCK ? (user.DATE_BLOCK | date: 'dd/MM/yyyy'): '-'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="STATUS">
+          <th mat-header-cell *matHeaderCellDef> STATUS </th>
+          <td mat-cell *matCellDef="let user"
+            [ngClass]="{
+            'usuario-ativo': user.STATUS == 'ATIVO',
+            'usuario-bloqueado': user.STATUS == 'BLOQUEADO'
+          }">
+            <mat-icon *ngIf="user.STATUS !== 'ATIVO'">person_off</mat-icon>
+            <mat-icon *ngIf="user.STATUS === 'ATIVO'">how_to_reg</mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ACAO">
+          <th mat-header-cell *matHeaderCellDef >ACÃO</th>
+          <td mat-cell *matCellDef="let user" (click)="$event.stopPropagation()">
+            <button  mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item *ngIf="user.STATUS === 'ATIVO' && user.MATRICULA != 217314" (click)="alterarStatusUsuario(user.ID,'BLOQUEADO')" >
+                <mat-icon >person_off</mat-icon>
+                <span>Bloquear Usuário</span>
+              </button>
+              <button  mat-menu-item *ngIf="user.STATUS === 'BLOQUEADO'" (click)="alterarStatusUsuario(user.ID,'ATIVO')" >
+                <mat-icon >how_to_reg</mat-icon>
+                <span >Ativar Usuário</span>
+              </button>
+              <button mat-menu-item (click)="dialogUsuario('editarUsuario', user)" >
+                <mat-icon >edit</mat-icon>
+                <span>Editar Usuário</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsWitchDate; sticky: true"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: columnsWitchDate;"
+            [ngClass]="{
+              'usuario-bloqueadp': row.STATUS == 'BLOQUEADO'
+            }"></tr>
+
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="columnsWitchDate.length">Nenhuma informação encontrada referente a: {{input.value}}</td>
+        </tr>
+      </table>
+
+    </div>
+  </mat-card-content>
+    <!-- <mat-card-footer>
+        Footer
+    </mat-card-footer> -->
+</mat-card>

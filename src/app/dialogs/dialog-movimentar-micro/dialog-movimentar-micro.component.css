@@ -1,0 +1,47 @@
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[mat-dialog-title] > div {
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.local-atual {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+mat-card-title {
+  font-size: 1rem;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+form > div.loja-data {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+div.loja-data > mat-form-field {
+  flex-basis: 46%;
+}

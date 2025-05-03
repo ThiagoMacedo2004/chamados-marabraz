@@ -1,0 +1,48 @@
+<div class="main">
+
+  <mat-card >
+    <mat-card-title class="title-tabela">
+      <div class="info">
+        <span>Micros</span>
+        <mat-icon>computer</mat-icon>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <div>
+        <h3>Total de Micros:</h3>
+        <span>{{ qdtMicros }}</span>
+      </div>
+
+      <div>
+        <h3>Micros Selecionados</h3>
+        <span>{{ qtdMicrosSelecionado }}</span>
+      </div>
+      <div class="btns">
+
+        <button mat-icon-button (click)="excel()" [ngClass]="{'btn-excel':qtdMicrosSelecionado === 0}" matTooltip="Baixar Excel">
+            <mat-icon class="">file_download</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Novo Micro" (click)="dialogAdicionarMicro()">
+            <mat-icon class="" >add</mat-icon>
+        </button>
+      </div>
+
+    </mat-card-subtitle>
+
+    <mat-card-content>
+      <h3 *ngIf="carregando">Carregando...</h3>
+
+      <app-tabela-micros
+        *ngIf="!carregando"
+        [microsTb]="micros"
+        (eventoAlterarMicro)="microsSelecionados($event)"
+        >
+      </app-tabela-micros>
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-progress-bar mode="indeterminate" *ngIf="carregando"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</div>

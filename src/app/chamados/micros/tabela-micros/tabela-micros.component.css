@@ -1,0 +1,55 @@
+.mat-form-field {
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.tabela-micros {
+  max-height: calc(100vh - 270px);
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.btn-selecao:hover {
+  background-color: whitesmoke;
+}
+
+.tabela-micros td {
+  font-size: 0.8rem;
+}
+
+table {
+  width: 100%;
+  font-size: 1rem;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 10px;
+}
+
+.micro-furtado > td {
+  color: red;
+
+}
+
+.selecionado {
+  background-color: whitesmoke;
+  font-weight: 500;
+}
+
+table th:nth-child(1) {
+  width: 7%;
+}
+
+tr[mat-row]:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+
+}
+
+tr.mat-row {
+  height: 0;
+}

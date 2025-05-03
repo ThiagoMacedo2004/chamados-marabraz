@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>
+  <div>
+    <mat-icon>{{icon}}</mat-icon>
+    <span>{{titulo}}</span>
+  </div>
+</h2>
+
+<div mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" formControlName="nome" [errorStateMatcher]="matcher" [readonly]="disabledInput()">
+        <mat-icon matSuffix class="icon-display">person</mat-icon>
+
+        <mat-error *ngIf="formGroup.get('nome')?.hasError('required')">
+          Nome é <strong>Obrigatória</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Matricula</mat-label>
+        <input matInput type="text" formControlName="matricula" [errorStateMatcher]="matcher" [readonly]="disabledInput()">
+        <mat-icon matSuffix class="icon-display">badge</mat-icon>
+        <mat-error *ngIf="formGroup.get('matricula')?.hasError('required')">
+          Matricula é <strong>Obrigatório</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" formControlName="email" [errorStateMatcher]="matcher" [readonly]="disabledInput()" >
+        <mat-icon matSuffix class="icon-display">alternate_email</mat-icon>
+        <mat-error *ngIf="formGroup.get('email')?.invalid">
+          {{getErrorMessage()}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+
+        <input matInput formControlName="senha" [type]="visualizar ? 'password' : 'text'" [errorStateMatcher]="matcher">
+        <button mat-icon-button matSuffix (click)="visualizar = !visualizar" >
+          <mat-icon>{{visualizar ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formGroup.get('senha')?.hasError('required')">
+          Senha é <strong>Obrigatória</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Repetir Senha</mat-label>
+        <input matInput formControlName="repetirSenha" [type]="visualizarDois ? 'password' : 'text'" [errorStateMatcher]="matcher">
+        <button mat-icon-button matSuffix (click)="visualizarDois = !visualizarDois" >
+          <mat-icon>{{visualizarDois ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formGroup.get('repetirSenha')?.hasError('required')">
+          Senha é <strong>Obrigatória</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>FECHAR</button>
+  <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="salvar()" >SALVAR</button>
+</div>

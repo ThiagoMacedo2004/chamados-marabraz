@@ -1,0 +1,177 @@
+<app-pesquisa-ocorrencia
+  (resultPesquisa) = 'setResultPesquisa($event)'
+  [ocorrenciaSelecionada] = 'selection.selected' >
+</app-pesquisa-ocorrencia>
+
+<mat-card>
+
+  <mat-card-title class="title-tabela">
+    <div class="info">
+      <mat-icon>list</mat-icon>
+      <span>Ocorrencias</span>
+    </div>
+
+    <div class="btns-ocorrencia">
+      <button mat-icon-button matTooltip="Voltar" color="primary" (click)="voltar()" *ngIf="this.ocorrenciaPesquisa.length > 0">
+        <mat-icon >arrow_back</mat-icon>
+      </button>
+      <!-- <button mat-button color="primary" (click)="gerarOc()">
+        Gerar O.S
+      </button>
+
+      <button *ngIf="user.MATRICULA === 217314" mat-button color="primary" (click)="opcoesOcorrencia()" >
+
+        Opções
+      </button>
+
+      <button mat-button color="primary" [disabled]="this.selection.selected.length === 0" (click)="excel()">
+
+        Excel
+      </button> -->
+    </div>
+
+    <h4>Qtd: {{ qtdOcorrencias }}</h4>
+
+  </mat-card-title>
+
+  <mat-card-content *ngIf="dataSource.data.length > 0">
+    <mat-form-field appearance="legacy">
+      <mat-label>Filtro</mat-label>
+      <input matInput (keyup)="applyFilter($event)" [(ngModel)]="strFilter" placeholder="Ex. Furto" #input>
+    </mat-form-field>
+
+    <div class="tabela-ocorrencias">
+
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? [toggleAllRows(), qtdOcorrenciaSelecionada = selection.selected.length] : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          color="primary">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+            <mat-checkbox color="primary"
+              (click)="$event.stopPropagation()"
+              (change)="$event ? [selection.toggle(row), qtdOcorrenciaSelecionada = selection.selected.length] : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+          <td mat-cell *matCellDef="let oc"> {{oc[column]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DATA">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header >DATA</th>
+          <td mat-cell *matCellDef="let oc">
+            {{oc.DATA | date: 'dd/MM/yyyy'}}
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DATA_ATEND">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header >DATA ATEND.</th>
+          <td mat-cell *matCellDef="let oc">
+            {{ oc.DATA_ATEND ? (oc.DATA_ATEND | date: 'dd/MM/yyyy') : '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="STATUS">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header >STATUS</th>
+          <td mat-cell *matCellDef="let oc">
+            <button [ngClass]="{
+              'status-aberta': oc?.STATUS === 'Aberta',
+              'status-finalizada': oc?.STATUS === 'Finalizada'}"
+               mat-icon-button matTooltip={{oc.STATUS}} *ngIf="oc.STATUS === 'Aberta'">
+              <mat-icon class="mat-18">info</mat-icon>
+            </button>
+
+            <button [ngClass]="{
+              'status-aberta': oc?.STATUS === 'Aberta',
+              'status-finalizada': oc?.STATUS === 'Finalizada'}"
+               mat-icon-button matTooltip={{oc.STATUS}} *ngIf="oc.STATUS === 'Finalizada'">
+              <mat-icon class="mat-18">check_circle</mat-icon>
+            </button>
+            <!-- <p [ngClass]="{
+              'status-aberta': oc?.STATUS === 'Aberta',
+              'status-finalizada': oc?.STATUS === 'Finalizada'}">
+              {{oc.STATUS }}
+            </p> -->
+
+            <!-- <span [ngClass]="{
+                'status-aberta': oc?.STATUS === 'Aberta',
+                'status-finalizada': oc?.STATUS === 'Finalizada'}"
+                class="status"
+              >{{oc.STATUS }}</span> -->
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ACAO">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header ></th>
+          <td mat-cell *matCellDef="let oc" (click)="$event.stopPropagation()">
+            <div class="container-btns">
+              <button mat-icon-button color="primary" matTooltip="Enviar O.S" (click)="enviaEmail(oc)" *ngIf="oc.STATUS === 'Aberta'">
+                <mat-icon class="mat-18">outgoing_mail</mat-icon>
+              </button>
+              <!-- <button mat-icon-button matTooltip="Enviar O.S" (click)="enviaEmail(oc)" *ngIf="oc.STATUS === 'Aberta'">
+                <span class="material-symbols-outlined">
+                  outgoing_mail
+                </span>
+
+              </button> -->
+
+              <button mat-icon-button color="primary" matTooltip="Abrir O.S" (click)="pdfOs(oc)" *ngIf="oc.STATUS === 'Aberta'">
+                <mat-icon class="mat-18">file_open</mat-icon>
+              </button>
+
+              <!-- <button mat-icon-button matTooltip="Abrir O.S" (click)="pdfOs(oc)" *ngIf="oc.STATUS === 'Aberta'">
+                <span class="material-symbols-outlined">
+                  file_open
+                </span>
+              </button> -->
+
+              <!-- <a mat-icon-button href="http://cpl-inf-02.marabraz.com.br/ocorrencias_php/pdfs/{{ oc.OCORRENCIA }}.pdf" target="_blank" matTooltip="Abrir O.S" *ngIf="oc.STATUS === 'Finalizada'"> -->
+              <a mat-icon-button href="http://www.infraestrutura.com.br/ocorrencias_php/pdfs/{{ oc.OCORRENCIA }}.pdf" target="_blank" color="primary" matTooltip="Abrir O.S" *ngIf="oc.STATUS === 'Finalizada'">
+               <mat-icon class="mat-18">file_open</mat-icon>
+              </a>
+
+              <button mat-icon-button color="warn" matTooltip="Deletar O.S" (click)="deletaOcorrencia(oc)" *ngIf="oc?.STATUS !== 'Finalizada'">
+                <mat-icon class="mat-18">delete</mat-icon>
+              </button>
+
+              <!-- <button mat-icon-button *ngIf="oc?.STATUS !== 'Finalizada'" color="warn" matTooltip="Deletar O.S" (click)="deletaOcorrencia(oc)">
+                <span class="material-symbols-outlined">
+                  delete
+                </span>
+              </button> -->
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithSelect; sticky: true"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: columnsToDisplayWithSelect;"
+            [ngClass]="{
+              'selecionado': selection.isSelected(row)
+            }"
+
+            (click)="detalhesOcorrencia(row)">
+          </tr>
+
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="columnsToDisplayWithSelect.length">Nenhuma informação encontrada referente a: {{input.value}}</td>
+        </tr>
+      </table>
+
+    </div>
+
+  </mat-card-content>
+
+</mat-card>
+
+

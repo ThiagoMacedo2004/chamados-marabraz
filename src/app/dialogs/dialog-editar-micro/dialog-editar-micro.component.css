@@ -1,0 +1,18 @@
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[mat-dialog-title] > div {
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

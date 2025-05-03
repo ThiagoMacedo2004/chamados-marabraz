@@ -1,0 +1,83 @@
+<!-- <app-tabela-ocorrencias [ocorrenciaPesquisa]="result"></app-tabela-ocorrencias> -->
+<mat-card>
+  <mat-card-title>
+    <div class="info">
+      <mat-icon>search</mat-icon>
+      <span>Filtros da Pesquisa</span>
+    </div>
+    <div class="btns">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="pesquisaOc()">Pesquisar</button>
+      <button mat-flat-button color="primary" (click)="gerarOc()">Gerar O.S</button>
+      <button *ngIf="user.MATRICULA === 217314" mat-flat-button color="primary" (click)="opcoesOcorrencia()" >Opções</button>
+      <button mat-flat-button color="primary" [disabled]="ocorrenciaSelecionada.length === 0" (click)="excel()">Excel</button>
+    </div>
+    <div>
+      <button mat-button color="warn" (click)="limparFormulario()">Ocorrencias Abertas</button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <form  [formGroup]="formGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Loja</mat-label>
+        <mat-select formControlName="idLoja">
+          <mat-option value="">-- Selecione Loja --</mat-option>
+          <mat-option
+            *ngFor="let loja of lojas"
+            [value]="loja.ID"
+            [ngClass]="{
+              'status-aberta': loja?.STATUS === 'FECHADA'}">
+            {{loja.LOJA}} {{(loja.STATUS === 'ABERTA') ? '' : loja.STATUS}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ocorrência</mat-label>
+        <input matInput formControlName="ocorrencia">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="motivo-submotivo">
+        <mat-label>Motivo</mat-label>
+        <mat-select formControlName="idMotivo" (selectionChange)="changeMotivo($event)">
+          <mat-option value="">- - Selecione um Motivo - -</mat-option>
+          <mat-option *ngFor="let motivo of motivos" [value]="motivo.id">
+            {{motivo.motivo}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="motivo-submotivo">
+        <mat-label>SubMotivos</mat-label>
+        <mat-select formControlName="idSubmotivo">
+          <mat-option value="">- - Selecione um Submotivo - -</mat-option>
+          <mat-option *ngFor="let subMotivo of subMotivos" [value]="subMotivo.id">
+            {{subMotivo.submotivo}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data Inicial</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="dateInicial" [disabled]="false" (dateChange)="dateLimit()">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        <!-- <mat-error *ngIf="formGroup.get('dataAtendimento')?.hasError('required')">
+          Data é <strong>Obrigatória</strong>
+        </mat-error> -->
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data Final</mat-label>
+        <input matInput [matDatepicker]="picker2" [min]="minDate" formControlName="dateFinal" [disabled]="false">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 [disabled]="dateFinal"></mat-datepicker>
+        <mat-error *ngIf="formGroup.get('dateFinal')?.invalid || formGroup.get('dateFinal')?.errors">
+          <strong>{{getErrorMessage()}}</strong>
+        </mat-error>
+      </mat-form-field>
+
+
+
+    </form>
+  </mat-card-content>
+</mat-card>

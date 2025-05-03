@@ -1,0 +1,67 @@
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555;
+}
+
+.container-tabela {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.tabela {
+  width: 100%;
+}
+
+tr td div.movimentacao {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+tr td div.movimentacao span:nth-child(1) {
+  padding: 4px 12px;
+  background-color: #ff0000b5;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  min-width: 33%;
+  text-align: center;
+}
+
+tr td div.movimentacao span:nth-child(3) {
+  padding: 4px 12px;
+  background-color: darkcyan;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  min-width: 33%;
+  text-align: center;
+}
+
+tr.mat-header-row {
+  height: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+tr.mat-header-row > th,
+td[mat-cell] {
+  font-size: 0.7rem;
+}
+
+td[mat-cell]:nth-child(8),
+tr.mat-header-row > th:nth-child(8),
+td[mat-cell]:nth-child(9),
+tr.mat-header-row > th:nth-child(9) {
+  text-align: center;
+}
+
+button .icon-acao {
+  transform: scale(0.7);
+  text-align: center;
+}
+
+

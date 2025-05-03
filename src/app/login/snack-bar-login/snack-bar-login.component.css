@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px
+}
+
+span, button {
+  font-size: 0.9rem;
+}
+
+button {
+  color: #8ab4f8;
+  font-weight: 500;
+  transition: 200ms ease;
+}
+
+button:hover {
+  background-color: #3e5375;
+  transition: 200ms ease-in-out;
+}
+
+.mat-snack-bar-container {
+  max-width: 90vw;
+}

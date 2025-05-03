@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  gap: 10px;
+}
+
+mat-card {
+  transition: 500ms;
+}
+
+mat-card-content {
+  transition: 500ms ;
+}
+
+.container > *{
+  flex: 1 1 50%;
+  max-height: 100%
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+div.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+button[mat-icon-button] {
+  scale: 1.2;
+  font-weight: 500;
+  transition: 450ms;
+}
+
+button[mat-icon-button]:hover {
+  background-color:#f0f0f0;
+}
+
+
+div.row:nth-child(1) .ocorrencia {
+  flex: 1 1 auto;
+}
+
+div.row:not(:nth-child(1)) > mat-form-field {
+  flex: 1 1 auto;
+}
+
+.row-descricacao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.historico-loja {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.titulo-detalhe-loja {
+  margin-bottom: 2px;
+}
+
+p {
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+}
+
+table tr th, table tr td {
+  font-size: 0.7rem;
+}
+
+.status-aberta {
+  color: red;
+}
+
+.status-finalizada {
+  color: green;
+}
+
+tr[mat-row] > td {
+  vertical-align: middle;
+}
+
+
+tr[mat-row]:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+
+
+
+
+
+
